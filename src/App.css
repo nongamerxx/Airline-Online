@@ -1,0 +1,452 @@
+/* Reset */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to bottom right, #1e1b4b, #1e3a8a, #6b21a8);
+  min-height: 100vh;
+  color: white;
+}
+
+/* Layout */
+.page-wrapper {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+/* Navbar */
+.navbar {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.navbar-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links span {
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.nav-links span:hover {
+  color: cyan;
+}
+
+.logout-btn {
+  color: #ff4d4d;
+}
+
+/* Results */
+.results-container {
+  padding: 40px;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+}
+
+.results-container h1 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.flight-card {
+  background: rgba(255, 255, 255, 0.15);
+  padding: 20px;
+  border-radius: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.flight-card .price {
+  font-size: 20px;
+  font-weight: bold;
+  color: #ffd700;
+}
+
+.button-group {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+}
+
+.button-group button {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #2563eb;
+  color: white;
+  transition: 0.3s;
+}
+
+.button-group button:hover {
+  background: #1d4ed8;
+}
+
+/* ===== MyBookings Page ===== */
+
+.mybookings-page {
+  min-height: 100vh;
+  padding: 40px 20px;
+  font-family: "Segoe UI", sans-serif;
+  color: white;
+}
+
+.mybookings-container {
+  max-width: 900px;
+  margin: auto;
+}
+
+.mybookings-title {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 28px;
+}
+
+.booking-card {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(15px);
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 25px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transition: 0.3s;
+}
+
+.booking-card:hover {
+  transform: translateY(-5px);
+}
+
+.flight-section {
+  margin-bottom: 15px;
+}
+
+.flight-section p {
+  margin: 5px 0;
+}
+
+.passenger-section {
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  padding-top: 10px;
+  margin-top: 10px;
+}
+
+.cancel-btn {
+  margin-top: 12px;
+  background: linear-gradient(90deg, #ff4b2b, #ff416c);
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.cancel-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(255, 65, 108, 0.5);
+}
+
+.empty-state {
+  text-align: center;
+  margin-top: 40px;
+  opacity: 0.8;
+}
+
+/* ===== Passenger Page ===== */
+
+.passenger-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  font-family: "Segoe UI", sans-serif;
+  color: white;
+}
+
+.passenger-card {
+  width: 100%;
+  max-width: 650px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(20px);
+  border-radius: 25px;
+  padding: 35px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+  transition: 0.3s;
+}
+
+.passenger-card:hover {
+  transform: translateY(-5px);
+}
+
+.passenger-title {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 26px;
+}
+
+.flight-info {
+  background: rgba(255, 255, 255, 0.18);
+  padding: 15px;
+  border-radius: 15px;
+  margin-bottom: 20px;
+}
+
+.flight-info p {
+  margin: 6px 0;
+}
+
+.passenger-form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.passenger-form input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  margin-bottom: 15px;
+  outline: none;
+}
+
+.passenger-form input:focus {
+  box-shadow: 0 0 8px #4facfe;
+}
+
+.passenger-form input:disabled {
+  background-color: #e9ecef;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(90deg, #4facfe, #00f2fe);
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.submit-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(0, 242, 254, 0.5);
+}
+
+.back-btn {
+  margin-bottom: 20px;
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: none;
+  background-color: #6c757d;
+  color: white;
+  cursor: pointer;
+}
+
+/* ================= PAGE BACKGROUND ================= */
+
+.admin-page {
+  min-height: 100vh;
+  padding: 40px 20px;
+  font-family: "Segoe UI", sans-serif;
+  color: white;
+}
+
+/* ================= CONTAINER ================= */
+
+.admin-container {
+  max-width: 1200px;
+  margin: auto;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  padding: 30px;
+  border-radius: 15px;
+}
+
+/* ================= HEADER ================= */
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+/* ================= SECTIONS ================= */
+
+.admin-section {
+  margin-bottom: 40px;
+}
+
+/* ================= FORM ================= */
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.form-row input {
+  padding: 8px;
+  border-radius: 6px;
+  border: none;
+  width: 150px;
+}
+
+/* ================= TABLE ================= */
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.admin-table th,
+.admin-table td {
+  padding: 10px;
+  text-align: center;
+}
+
+.admin-table th {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.admin-table tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* ================= BUTTONS ================= */
+
+.primary-btn {
+  background: linear-gradient(45deg, #00c6ff, #0072ff);
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.primary-btn:hover {
+  transform: scale(1.05);
+}
+
+.danger-btn {
+  background: red;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.logout-btn {
+  background: crimson;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* ================= AUTH PAGE ================= */
+
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.auth-container {
+  width: 350px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  padding: 40px 30px;
+  border-radius: 15px;
+  text-align: center;
+  color: white;
+}
+
+.auth-container h1 {
+  margin-bottom: 10px;
+}
+
+.auth-container h2 {
+  margin-bottom: 25px;
+}
+
+.auth-container input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  border: none;
+}
+
+.auth-link {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.auth-link span {
+  color: #00c6ff;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.auth-link span:hover {
+  text-decoration: underline;
+}
+
+/* ===== GLOBAL SKYJOURNEY BACKGROUND ===== */
+
+body {
+  margin: 0;
+  font-family: 'Sarabun', sans-serif;
+  min-height: 100vh;
+
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)),
+    url("./assets/gg_5.jpg");
+
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+
+  color: white;
+}
+
+.login-container,
+.admin-container,
+.home-container {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 30px;
+}
