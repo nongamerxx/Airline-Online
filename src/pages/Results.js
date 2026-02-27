@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
-import { db } from "../firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { db, auth } from "../firebase";
+import {
+  collection,
+  getDocs,
+  doc,
+  runTransaction,
+  addDoc,
+} from "firebase/firestore";
 import { useLocation, useNavigate } from "react-router-dom";
 
 function Results() {
@@ -12,37 +18,85 @@ function Results() {
   const selectedCountry = queryParams.get("country");
   const selectedDate = queryParams.get("date");
 
-  useEffect(() => {
-    const fetchFlights = async () => {
-      const snapshot = await getDocs(collection(db, "flights"));
+  // ✅ โหลดเที่ยวบิน
+  const fetchFlights = async () => {
+    const snapshot = await getDocs(collection(db, "flights"));
 
-      let data = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      }));
+    let data = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
 
-      const today = new Date();
+    const today = new Date();
 
-      data = data.filter(flight => {
-        if (!flight.country || !flight.departDate) return false;
+    data = data.filter((flight) => {
+      if (!flight.country || !flight.departDate) return false;
 
-        let flightDate;
-        if (flight.departDate.seconds) {
-          flightDate = new Date(flight.departDate.seconds * 1000);
-        } else {
-          flightDate = new Date(flight.departDate);
+      let flightDate;
+      if (flight.departDate.seconds) {
+        flightDate = new Date(flight.departDate.seconds * 1000);
+      } else {
+        flightDate = new Date(flight.departDate);
+      }
+
+      return (
+        flight.country === selectedCountry &&
+        flightDate >= new Date(selectedDate) &&
+        flightDate >= today
+      );
+    });
+
+    setFlights(data);
+  };
+
+  // ✅ จองตั๋ว (ลดที่นั่ง)
+  const handleBook = async (flight) => {
+    if (!auth.currentUser) {
+      alert("กรุณาเข้าสู่ระบบก่อนจอง");
+      return;
+    }
+
+    const passengerCount = 1;
+    const flightRef = doc(db, "flights", flight.id);
+
+    try {
+      await runTransaction(db, async (transaction) => {
+        const flightDoc = await transaction.get(flightRef);
+
+        if (!flightDoc.exists()) {
+          throw "Flight not found!";
         }
 
-        return (
-          flight.country === selectedCountry &&
-          flightDate >= new Date(selectedDate) &&
-          flightDate >= today
-        );
+        const currentSeats = flightDoc.data().seatsAvailable;
+
+        if (currentSeats < passengerCount) {
+          throw "Not enough seats!";
+        }
+
+        transaction.update(flightRef, {
+          seatsAvailable: currentSeats - passengerCount,
+        });
       });
 
-      setFlights(data);
-    };
+      await addDoc(collection(db, "bookings"), {
+        userId: auth.currentUser.uid,
+        flightId: flight.id,
+        passengerCount: passengerCount,
+        price: flight.price,
+        createdAt: new Date(),
+      });
 
+      alert("Booking successful!");
+
+      // ✅ รีโหลดข้อมูลใหม่ให้ที่นั่งอัปเดต
+      fetchFlights();
+
+    } catch (e) {
+      alert(e);
+    }
+  };
+
+  useEffect(() => {
     fetchFlights();
   }, [selectedCountry, selectedDate]);
 
@@ -53,8 +107,8 @@ function Results() {
       {flights.length === 0 ? (
         <p>ไม่พบเที่ยวบิน</p>
       ) : (
-        flights.map(flight => {
-          const date = flight.departDate.seconds
+        flights.map((flight) => {
+          const date = flight.departDate?.seconds
             ? new Date(flight.departDate.seconds * 1000)
             : new Date(flight.departDate);
 
@@ -65,10 +119,23 @@ function Results() {
               <p><strong>Departure:</strong> {date.toLocaleDateString()}</p>
               <p className="price">{flight.price} บาท</p>
 
+              {/* ✅ แสดงที่นั่ง */}
+              <p>
+                <strong>Seats Left:</strong>{" "}
+                {flight.seatsAvailable}
+              </p>
+
               <div className="button-group">
-                <button onClick={() => navigate(`/passenger/${flight.id}`)}>
-                  จองตั๋ว
-                </button>
+                {flight.seatsAvailable > 0 ? (
+                  <button onClick={() => handleBook(flight)}>
+                    จองตั๋ว
+                  </button>
+                ) : (
+                  <button disabled style={{ background: "gray" }}>
+                    Sold Out
+                  </button>
+                )}
+
                 <button onClick={() => navigate("/")}>
                   กลับหน้า Home
                 </button>
