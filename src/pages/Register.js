@@ -3,6 +3,7 @@ import { createUserWithEmailAndPassword, signOut } from "firebase/auth";
 import { auth, db } from "../firebase";
 import { doc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+import { updateProfile } from "firebase/auth";
 import "../styles/theme.css";
 
 function Register() {
@@ -23,6 +24,9 @@ function Register() {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
+    await updateProfile(user, {
+      displayName: name
+    });
     await setDoc(doc(db, "users", user.uid), {
       name,
       email,
@@ -36,50 +40,50 @@ function Register() {
   };
 
   return (
-  <div className="auth-page">
-    <div className="auth-container">
-      <h1>✈ SkyJourney</h1>
-      <h2>Register</h2>
+    <div className="auth-page">
+      <div className="auth-container">
+        <h1>✈ SkyJourney</h1>
+        <h2>Register</h2>
 
-      <input
-        placeholder="Name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
+        <input
+          placeholder="Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
 
-      <input
-        placeholder="Phone"
-        value={phone}
-        onChange={(e) => setPhone(e.target.value)}
-      />
+        <input
+          placeholder="Phone"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+        />
 
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
 
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
 
-      <button className="primary-btn" onClick={handleRegister}>
-        Register
-      </button>
+        <button className="primary-btn" onClick={handleRegister}>
+          Register
+        </button>
 
-      <p className="auth-link">
-        มีบัญชีอยู่แล้ว?{" "}
-        <span onClick={() => navigate("/")}>
-          กลับหน้าหลัก
-        </span>
-      </p>
+        <p className="auth-link">
+          มีบัญชีอยู่แล้ว?{" "}
+          <span onClick={() => navigate("/")}>
+            กลับหน้าหลัก
+          </span>
+        </p>
+      </div>
     </div>
-  </div>
-);
+  );
 }
 
 export default Register;

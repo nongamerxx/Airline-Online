@@ -1,5 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { auth, db } from "../firebase";
+import { onAuthStateChanged } from "firebase/auth";
+import { collection, query, where, getDocs } from "firebase/firestore";
 import "../styles/theme.css";
 
 function Home() {
@@ -7,6 +10,21 @@ function Home() {
 
   const [country, setCountry] = useState("");
   const [departDate, setDepartDate] = useState("");
+  const [userName, setUserName] = useState("");
+
+  // ✅ ดึงชื่อผู้ใช้ที่ login อยู่
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        navigate("/");
+        return;
+      }
+
+      setUserName(user.displayName || "User");
+    });
+
+    return () => unsubscribe();
+  }, [navigate]);
 
   const countries = [
     { name: "Japan", image: "https://flagcdn.com/w320/jp.png" },
@@ -25,24 +43,41 @@ function Home() {
 
   return (
     <div>
+
+      {/* ================= NAVBAR ================= */}
+      <div className="navbar">
+        <div className="nav-left">
+          ✈ SkyJourney
+        </div>
+
+        <div className="nav-right">
+          <span className="welcome-text">
+            👋 {userName}
+          </span>
+
+          <button
+            onClick={() => {
+              auth.signOut();
+              navigate("/");
+            }}
+            className="btn-primary"
+          >
+            Logout
+          </button>
+        </div>
+      </div>
+
       {/* ================= HERO SECTION ================= */}
       <div className="hero">
         <div className="hero-overlay">
-          <h1
-            style={{
-              fontSize: "48px",
-              color: "white",
-              marginBottom: "10px",
-            }}
-          >
+          <h1 style={{ fontSize: "48px", color: "white" }}>
             Fly Beyond Your Dreams ✈
           </h1>
 
-          <p style={{ fontSize: "18px", marginBottom: "30px", color: "white" }}>
+          <p style={{ fontSize: "18px", color: "white" }}>
             Book flights to your favorite destinations
           </p>
 
-          {/* Search Box */}
           <form
             onSubmit={searchTour}
             style={{
@@ -117,6 +152,7 @@ function Home() {
           </div>
         ))}
       </div>
+
     </div>
   );
 }

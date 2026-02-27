@@ -1,12 +1,4 @@
 /* Reset */
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(to bottom right, #1e1b4b, #1e3a8a, #6b21a8);
-  min-height: 100vh;
-  color: white;
-}
-
 /* Layout */
 .page-wrapper {
   max-width: 1200px;
@@ -431,8 +423,8 @@ body {
   min-height: 100vh;
 
   background:
-    linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)),
-    url("./assets/gg_5.jpg");
+    linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)),
+    url("/gg_5.jpg");
 
   background-size: cover;
   background-position: center;
